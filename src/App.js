@@ -1,23 +1,19 @@
-import logo from './logo.svg';
+// src/App.js
+import React, { useState } from 'react';
 import './App.css';
+import TitleScreen from './components/TitleScreen';
+import UploadScreen from './components/UploadScreen'; // You will create this component next
 
 function App() {
+  const [screen, setScreen] = useState('title'); // 'title' or 'upload'
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {screen === 'title' ? (
+        <TitleScreen onContinue={() => setScreen('upload')} />
+      ) : (
+        <UploadScreen />
+      )}
     </div>
   );
 }
