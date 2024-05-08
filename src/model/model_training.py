@@ -1,32 +1,29 @@
 # what-is-your-gender/src/model/model_training.py
 import numpy as np
 import tensorflow as tf
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
-from tensorflow.keras.utils import to_categorical
 from sklearn.model_selection import train_test_split
 
 
 # Load preprocessed data
-data = np.load('what-is-your-gender/src/data_preparation/dataset/combined_data.npy')
-labels = np.load('what-is-your-gender/src/data_preparation/dataset/combined_labels.npy')
+data = np.load('what-is-your-gender/dataset/combined_data.npy')
+labels = np.load('what-is-your-gender/dataset/combined_labels.npy')
 
 # Convert labels to categorical (one-hot encoding)
-labels = to_categorical(labels)
+labels = tf.keras.utils.to_categorical(labels)
 
 # Split data into training and testing
 from sklearn.model_selection import train_test_split
 train_data, test_data, train_labels, test_labels = train_test_split(data, labels, test_size=0.2, random_state=42)
 
 # Define the model for greyscale images
-model = Sequential([
-    Conv2D(32, (3, 3), activation='relu', input_shape=(64, 64, 1)),  # Adjust for single-channel (greyscale)
-    MaxPooling2D(2, 2),
-    Conv2D(64, (3, 3), activation='relu'),
-    MaxPooling2D(2, 2),
-    Flatten(),
-    Dense(128, activation='relu'),
-    Dense(2, activation='softmax')  # 2 output neurons for 'Male' and 'Female'
+model = tf.keras.models.Sequential([
+    tf.keras.layers.Conv2D(32, (3, 3), activation='relu', input_shape=(64, 64, 1)),  # Adjust for single-channel (greyscale)
+    tf.keras.layers.MaxPooling2D(2, 2),
+    tf.keras.layers.Conv2D(64, (3, 3), activation='relu'),
+    tf.keras.layers.MaxPooling2D(2, 2),
+    tf.keras.layers.Flatten(),
+    tf.keras.layers.Dense(128, activation='relu'),
+    tf.keras.layers.Dense(2, activation='softmax')  # 2 output neurons for 'Male' and 'Female'
 ])
 
 # Compile the model

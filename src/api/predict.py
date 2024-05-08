@@ -9,20 +9,18 @@ import base64
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)  # This will enable CORS for all domains on all routes
-try:
-    model = tf.keras.models.load_model('what-is-your-gender/src/model/gender_model.keras')
-    print("Model loaded successfully.")
-except Exception as e:
-    print(f"Error loading the model: {e}")
+# CORS(app, origins=["http://localhost:3000"])
+CORS(app, resources={r"/api/*": {"origins": "*"}})
+  # This will enable CORS for all domains on all routes
+model = tf.keras.models.load_model('what-is-your-gender/src/model/gender_model.keras')
 
 def preprocess_image(image, target_size):
     if image.mode != "L":
         image = image.convert("L")  
-    image = image.resize(target_size)
-    image = np.array(image)
-    image = image / 255.0
-    return image.reshape(-1, 64, 64, 1)
+        image = image.resize(target_size)
+        image = np.array(image)
+        image = image / 255.0
+        return image.reshape(-1, 64, 64, 1)
 
 @app.route("/api/predict", methods=["POST"])
 def predict():
@@ -36,5 +34,12 @@ def predict():
 
     return jsonify({"gender": int(prediction[0][0] > 0.5)})
 
+@app.route('/cakes')
+def cakes():
+    return 'Yummy cakes!'
+
 if __name__ == "__main__":
-    app.run(port=5000, debug=True)
+    app.run(port=5000, debug=True, host='0.0.0.0')
+    print("server is running on port 5000")
+
+

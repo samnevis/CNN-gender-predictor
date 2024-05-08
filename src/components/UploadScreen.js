@@ -22,8 +22,9 @@ const UploadScreen = () => {
 
     const predictGender = async (imageData) => {
       try {
-          const response = await fetch('http://localhost:5000/api/predict', {
+          const response = await fetch('http://127.0.0.1:5000/api/predict', {
             method: 'POST',
+            mode: 'no-cors',
             headers: {
                 'Content-Type': 'application/json',
             },
