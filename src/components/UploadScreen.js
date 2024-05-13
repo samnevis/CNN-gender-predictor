@@ -1,4 +1,5 @@
 // src/components/UploadScreen.js
+// src/components/UploadScreen.js
 import React, { useState } from 'react';
 import './UploadScreen.css';
 
@@ -21,36 +22,36 @@ const UploadScreen = () => {
     };
 
     const predictGender = async (imageData) => {
-      try {
-          const response = await fetch('http://127.0.0.1:5000/api/predict', {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ image: imageData }),
-          });
-  
-          if (!response.ok) {
-              throw new Error('Failed to fetch data from server.');
-          }
-  
-          const result = await response.json();
-          setPrediction(result.gender);
-      } catch (error) {
-          alert('An error occurred while fetching data from server: ' + error.message);
-      }
+        try {
+            const response = await fetch('http://localhost:5000/api/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ image: imageData }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP status ${response.status}`);
+            }
+
+            const result = await response.json();
+            setPrediction(result.gender === 1 ? 'Female' : 'Male');
+        } catch (error) {
+            alert('An error occurred while fetching data from server: ' + error.message);
+        }
     };
-  
+
 
     return (
         <div className="upload-screen">
             <input type="file" onChange={handleUpload} />
             {image && <img src={image} alt="Uploaded" style={{ marginTop: '20px', maxWidth: '40%', maxHeight: '40%' }} />}
-            {prediction && <p>Predicted Gender: {prediction === 1 ? 'Female' : 'Male'}</p>}
+            {prediction && <p>Predicted Gender: {prediction}</p>}
         </div>
     );
+    
+    
 };
 
 export default UploadScreen;
-

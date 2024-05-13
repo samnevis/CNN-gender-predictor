@@ -5,8 +5,8 @@ from sklearn.model_selection import train_test_split
 
 
 # Load preprocessed data
-data = np.load('what-is-your-gender/dataset/combined_data.npy')
-labels = np.load('what-is-your-gender/dataset/combined_labels.npy')
+data = np.load('../../dataset/combined_data.npy')
+labels = np.load('../../dataset/combined_labels.npy')
 
 # Convert labels to categorical (one-hot encoding)
 labels = tf.keras.utils.to_categorical(labels)
@@ -32,9 +32,6 @@ model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accur
 # Train the model
 model.fit(train_data, train_labels, epochs=10, validation_data=(test_data, test_labels))
 
-
-
-
 # Evaluate the model on the test set
 test_loss, test_accuracy = model.evaluate(test_data, test_labels)
 
@@ -44,4 +41,5 @@ print(f"Test Accuracy: {test_accuracy}")
 
 
 # Save the model
-model.save('what-is-your-gender/src/model/gender_model.keras')  # Adjusted path
+model.save("./gender_model.keras")  # Adjusted path
+

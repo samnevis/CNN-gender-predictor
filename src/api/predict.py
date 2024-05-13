@@ -10,9 +10,9 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 # CORS(app, origins=["http://localhost:3000"])
-CORS(app, resources={r"/api/*": {"origins": "*"}})
-  # This will enable CORS for all domains on all routes
-model = tf.keras.models.load_model('what-is-your-gender/src/model/gender_model.keras')
+CORS(app, resources={r"/api/*": {"origins": "*"}}) # This will enable CORS for all domains on all routes
+path = "src/model/gender_model.keras"
+model = tf.keras.models.load_model(path)
 
 def preprocess_image(image, target_size):
     if image.mode != "L":
@@ -34,9 +34,12 @@ def predict():
 
     return jsonify({"gender": int(prediction[0][0] > 0.5)})
 
-@app.route('/cakes')
-def cakes():
-    return 'Yummy cakes!'
+
+@app.route("/api/test", methods=["GET"])
+def test():
+    return jsonify({"message": "Test endpoint is working!"})
+
+
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True, host='0.0.0.0')
