@@ -1,5 +1,5 @@
 // src/components/UploadScreen.js
-// src/components/UploadScreen.js
+
 import React, { useState } from 'react';
 import './UploadScreen.css';
 

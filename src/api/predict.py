@@ -3,7 +3,6 @@ import os
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 from flask import Flask, request, jsonify
 import numpy as np
-import cv2
 import tensorflow as tf
 from PIL import Image
 import io
@@ -11,10 +10,8 @@ import base64
 from flask_cors import CORS
 
 app = Flask(__name__)
-# CORS(app, origins=["http://localhost:3000"])
-CORS(app, resources={r"/api/*": {"origins": "*"}}) # This will enable CORS for all domains on all routes
-path = "../model/gender_model.keras"
-model = tf.keras.models.load_model(path)
+CORS(app, resources={r"/api/*": {"origins": "*"}})
+model = tf.keras.models.load_model("../model/gender_model.keras")
 
 def preprocess_image(image, target_size):
     if image.mode != "L":
