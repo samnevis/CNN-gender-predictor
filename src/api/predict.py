@@ -1,4 +1,6 @@
 # what-is-your-gender/src/api/predict.py
+import os
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 from flask import Flask, request, jsonify
 import numpy as np
 import cv2
@@ -11,7 +13,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 # CORS(app, origins=["http://localhost:3000"])
 CORS(app, resources={r"/api/*": {"origins": "*"}}) # This will enable CORS for all domains on all routes
-path = "src/model/gender_model.keras"
+path = "../model/gender_model.keras"
 model = tf.keras.models.load_model(path)
 
 def preprocess_image(image, target_size):
@@ -42,7 +44,7 @@ def test():
 
 
 if __name__ == "__main__":
-    app.run(port=5000, debug=True, host='0.0.0.0')
+    app.run(debug=True)
     print("server is running on port 5000")
 
 
